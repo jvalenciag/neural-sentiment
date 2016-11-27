@@ -104,13 +104,13 @@ def main():
 					loss += test_loss
 					test_accuracy += accuracy
 				normalized_test_loss, normalized_test_accuracy = loss / len(model.test_data), test_accuracy / len(model.test_data)
-				checkpoint_path = os.path.join(FLAGS.checkpoint_dir, "sentiment{0}.ckpt".format(normalized_test_accuracy))
-				model.saver.save(sess, checkpoint_path, global_step=model.global_step)
 				writer.add_summary(str_summary, step)
 				print "Avg Test Loss: {0}, Avg Test Accuracy: {1}".format(normalized_test_loss, normalized_test_accuracy)
 				print "-------Step {0}/{1}------".format(step,tot_steps)
 				loss = 0.0
 				sys.stdout.flush()
+		checkpoint_path = os.path.join(FLAGS.checkpoint_dir, "sentiment{0}.ckpt".format(normalized_test_accuracy))
+		model.saver.save(sess, checkpoint_path, global_step=model.global_step)		
 
 def create_model(session, hyper_params, vocab_size):
 	model = models.sentiment.SentimentModel(vocab_size,
